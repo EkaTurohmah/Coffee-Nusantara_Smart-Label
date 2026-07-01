@@ -106,7 +106,23 @@ body {
   color: var(--color-gold);
 }
 
-/* ---------- Indikator penggulir (scroll progress) di bawah navbar ---------- */
+/* ---------- Navbar tanggal produksi & kadaluarsa ----------
+   Default: sejajar satu baris dengan sekat vertikal.
+   Di layar sangat sempit (<360px), otomatis menumpuk 2 baris
+   dan sekatnya disembunyikan supaya tidak ada elemen yang meluber. */
+.product-dates {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 359px) {
+  .product-dates {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .product-dates-divider {
+    display: none;
+  }
+}
 .tab-nav-wrap {
   position: relative;
 }
