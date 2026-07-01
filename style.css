@@ -1,0 +1,273 @@
+/* =========================================================
+   STYLE.CSS — Coffee Nusantara Smart Label
+   Custom utility di luar Tailwind: palet warna, animasi,
+   status tab aktif, dan scrollbar horizontal untuk menu tab.
+   ========================================================= */
+
+/* EDIT: ganti nilai hex di bawah ini untuk mengubah palet warna keseluruhan halaman */
+:root {
+  --color-coffee-black: #18100C;  /* hitam kopi paling gelap (hero & footer) */
+  --color-coffee-dark:  #2B1B12;  /* cokelat tua utama */
+  --color-coffee-mid:   #4A3223;  /* cokelat sedang, dipakai untuk border & teks sekunder */
+  --color-cream:        #F3E9DC; /* krem terang, warna dasar halaman */
+  --color-cream-soft:   #EAE0CE; /* krem sedikit lebih gelap */
+  --color-gold:         #D4A24C; /* aksen emas hangat, dipakai kecil-kecil saja */
+  --color-accent:       #B0703B; /* aksen terracotta earthy untuk ikon footer */
+  --color-success:      #10B981; /* hijau emerald untuk status verifikasi sukses */
+}
+
+body {
+  font-family: 'Work Sans', sans-serif;
+}
+.font-display { font-family: 'Fraunces', serif; }
+.font-mono    { font-family: 'Space Mono', monospace; }
+
+/* ---------- Background hero bernuansa cokelat gelap dengan glow hangat ---------- */
+.hero-glow {
+  background:
+    radial-gradient(60% 50% at 20% 0%, rgba(212, 162, 76, 0.20), transparent 60%),
+    radial-gradient(70% 60% at 90% 10%, rgba(176, 112, 59, 0.18), transparent 65%),
+    radial-gradient(120% 80% at 50% 100%, rgba(24, 16, 12, 0.9), var(--color-coffee-black) 70%);
+}
+
+/* Tekstur grain halus di atas background gelap (nuansa kertas kraft) */
+.grain {
+  position: relative;
+}
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
+/* ---------- Animasi fade-in saat halaman pertama kali dimuat ---------- */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in {
+  opacity: 0;
+  animation: fadeInUp 0.8s cubic-bezier(.22, 1, .36, 1) forwards;
+}
+.fade-in-1 { animation-delay: 0.12s; }
+.fade-in-2 { animation-delay: 0.26s; }
+.fade-in-3 { animation-delay: 0.40s; }
+.fade-in-4 { animation-delay: 0.54s; }
+
+/* Animasi setiap kali panel tab berpindah */
+@keyframes fadeInTab {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.tab-content {
+  animation: fadeInTab 0.45s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+/* ---------- Scrollbar horizontal menu tab: disembunyikan agar tidak ada
+   garis abu-abu yang mengganggu di layar HP, tapi tetap bisa digeser ---------- */
+.tab-scroll {
+  scrollbar-width: none;       /* Firefox */
+  -ms-overflow-style: none;    /* IE / Edge lama */
+}
+.tab-scroll::-webkit-scrollbar {
+  display: none;               /* Chrome, Safari, Edge berbasis Chromium */
+}
+
+/* ---------- Status tombol tab (.tab-btn / .tab-active) ----------
+   Diatur murni lewat CSS (bukan class arbitrary Tailwind) supaya
+   warna & border SELALU tampil, tidak tergantung Tailwind JIT. */
+.tab-btn {
+  position: relative;
+  z-index: 1;
+  color: var(--color-coffee-dark);
+  background: rgba(243, 233, 220, 0.9); /* krem semi solid, kontras di atas hero gelap maupun panel terang */
+  border: 1.5px solid rgba(74, 50, 35, 0.35);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.15s ease;
+}
+.tab-btn:hover {
+  border-color: var(--color-coffee-dark);
+  background: rgba(243, 233, 220, 1);
+}
+.tab-btn:active {
+  transform: scale(0.97);
+}
+.tab-active {
+  background: var(--color-coffee-dark) !important;
+  color: var(--color-cream) !important;
+  border-color: var(--color-coffee-dark) !important;
+}
+.tab-active i {
+  color: var(--color-gold);
+}
+
+/* ---------- Indikator penggulir (scroll progress) di bawah navbar ---------- */
+.tab-nav-wrap {
+  position: relative;
+}
+
+/* Bayangan tipis di sisi kanan menu tab, menandakan masih ada tab lain
+   yang belum terlihat (muncul otomatis lewat class .show dari script.js) */
+.tab-fade-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 4px;
+  width: 32px;
+  pointer-events: none;
+  z-index: 15;
+  background: linear-gradient(to right, transparent, var(--color-cream) 85%);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.tab-fade-right.show {
+  opacity: 0.85;
+}
+
+/* Trek penggulir: area sentuh dibuat lebih tinggi (16px) dari garis yang
+   terlihat (4px) supaya mudah disentuh/di-drag di HP.
+   EDIT: ubah --track-h untuk mengatur ketebalan garis yang terlihat */
+.tab-scroll-track {
+  --track-h: 4px;
+  position: relative;
+  height: 16px;
+  margin-top: 2px;
+  display: none;
+  align-items: center;
+  cursor: pointer;
+  touch-action: none; /* mencegah halaman ikut ter-scroll saat thumb di-drag */
+  -webkit-tap-highlight-color: transparent;
+}
+.tab-scroll-track.show {
+  display: flex;
+}
+/* Garis dasar trek (yang terlihat) */
+.tab-scroll-track::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: var(--track-h);
+  transform: translateY(-50%);
+  border-radius: 99px;
+  background: rgba(74, 50, 35, 0.12);
+}
+.tab-scroll-thumb {
+  position: relative;
+  z-index: 1;
+  height: 6px;
+  width: 30%;
+  border-radius: 99px;
+  background: var(--color-accent);
+  cursor: grab;
+  touch-action: none;
+  transition: width 0.2s ease, background-color 0.15s ease;
+}
+.tab-scroll-thumb:hover {
+  background: var(--color-coffee-dark);
+}
+.tab-scroll-thumb.dragging {
+  cursor: grabbing;
+  background: var(--color-coffee-dark);
+}
+
+/* Beri sedikit ruang kosong di ujung kanan menu tab supaya tombol
+   terakhir tidak mepet ke tepi layar saat digeser di HP */
+.tab-scroll::after {
+  content: "";
+  flex: 0 0 4px;
+}
+
+/* ---------- Timeline traceability (garis putus-putus jejak kopi) ---------- */
+.timeline-line {
+  width: 2px;
+  background-image: repeating-linear-gradient(to bottom, var(--color-accent) 0 6px, transparent 6px 14px);
+}
+.timeline-dot {
+  background: var(--color-coffee-dark);
+  color: var(--color-gold);
+}
+.timeline-dot-final {
+  background: var(--color-success);
+  color: #fff;
+}
+
+/* ---------- Pilihan metode seduh (V60 / Tubruk) ---------- */
+.brew-opt {
+  color: var(--color-coffee-dark);
+  background: rgba(243, 233, 220, 0.6);
+  border: 1.5px solid rgba(74, 50, 35, 0.3);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.brew-active {
+  background: var(--color-accent);
+  color: var(--color-cream);
+  border-color: var(--color-accent) !important;
+}
+
+/* Gauge suhu seduh (lingkaran radial) */
+.brew-gauge {
+  background: conic-gradient(var(--color-accent) calc(var(--gauge, 70) * 1%), var(--color-coffee-mid) 0);
+  transition: background 0.6s ease;
+}
+
+/* ---------- Bar profil rasa ---------- */
+.bar-track {
+  background: rgba(74, 50, 35, 0.15); /* var(--color-coffee-mid) transparan */
+}
+.taste-bar-fill {
+  width: 0%;
+  background: var(--color-accent);
+  transition: width 1s cubic-bezier(.22, 1, .36, 1);
+}
+
+/* Tag rasa dominan */
+.tag-pill {
+  background: rgba(74, 50, 35, 0.12);
+  color: var(--color-coffee-dark);
+}
+.tag-pill-accent {
+  background: rgba(212, 162, 76, 0.22);
+  border: 1px solid rgba(212, 162, 76, 0.5);
+}
+
+/* ---------- Spinner loading verifikasi ---------- */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.spinner {
+  animation: spin 0.9s linear infinite;
+}
+
+/* Animasi kotak hasil verifikasi muncul */
+@keyframes popIn {
+  0%   { opacity: 0; transform: scale(0.92); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.pop-in {
+  animation: popIn 0.4s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+/* Fokus keyboard tetap terlihat (aksesibilitas) */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+/* Hormati preferensi pengguna yang mengurangi animasi */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

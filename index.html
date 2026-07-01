@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Coffee Nusantara — Smart Label</title>
+<meta name="description" content="Smart Labeling Coffee Nusantara — jejak asal-usul, saran penyajian, profil rasa, dan verifikasi keaslian produk.">
+
+<!-- Tailwind CSS via CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<!-- FontAwesome via CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<!-- Google Fonts: Fraunces (display) + Work Sans (body) + Space Mono (data/serial) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700;9..144,900&family=Work+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<!-- File CSS terpisah -->
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="min-h-screen bg-[var(--color-cream)] text-[var(--color-coffee-dark)] font-body">
+
+  <!-- ============ HERO SECTION ============ -->
+  <header class="relative overflow-hidden px-6 pt-10 pb-14 text-center hero-glow grain">
+    <div class="relative z-10 max-w-md mx-auto">
+
+      <!-- EDIT: badge kecil di atas judul -->
+      <p class="fade-in fade-in-1 font-mono uppercase tracking-[0.25em] text-[11px] text-[var(--color-gold)] mb-4">
+        Nusantara Origin Series · Smart Label
+      </p>
+
+      <!-- EDIT: nama produk -->
+      <h1 class="fade-in fade-in-2 font-display font-semibold text-[2.5rem] leading-[1.05] text-[var(--color-cream)] tracking-tight">
+        COFFEE NUSANTARA
+      </h1>
+
+      <!-- EDIT: sub-judul / jenis kopi -->
+      <p class="fade-in fade-in-3 mt-3 text-[var(--color-cream-soft)] text-base">
+        Single Origin Nusantara
+      </p>
+
+      <!-- EDIT: deskripsi singkat -->
+      <p class="fade-in fade-in-4 mt-4 text-sm text-[var(--color-cream-soft)]/70 leading-relaxed">
+        Label pintar ini menyimpan jejak dari kebun hingga cangkir Anda.
+        Jelajahi asal-usul, cara seduh terbaik, profil rasa, dan verifikasi keaslian produk.
+      </p>
+    </div>
+  </header>
+
+  <!-- ============ NAVBAR TANGGAL PRODUKSI & KADALUARSA ============ -->
+  <!-- EDIT: ubah tanggal produksi & kadaluarsa sesuai batch produk Anda -->
+  <div class="max-w-md mx-auto px-4 -mt-6 relative z-20">
+    <div id="product-dates" class="fade-in fade-in-4 flex items-center justify-center gap-3 text-[11px] font-mono px-3 py-2.5 rounded-xl shadow-sm" style="background:rgba(243,233,220,0.95); border:1px solid rgba(74,50,35,0.18); color:var(--color-coffee-dark);">
+      <span class="flex items-center gap-1.5 whitespace-nowrap">
+        <i class="fa-solid fa-calendar-check" style="color:var(--color-accent);"></i>
+        Produksi: <span class="font-semibold">15 Jan 2026</span>
+      </span>
+      <span class="w-px h-3.5 shrink-0" style="background:rgba(74,50,35,0.25);"></span>
+      <span class="flex items-center gap-1.5 whitespace-nowrap">
+        <i class="fa-solid fa-calendar-xmark" style="color:var(--color-accent);"></i>
+        Kadaluarsa: <span class="font-semibold">15 Jan 2027</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- ============ SMART LABELING TABS ============ -->
+  <main class="max-w-md mx-auto px-4 mt-3 relative z-10 pb-4">
+
+    <!-- Menu tab, bisa digeser horizontal di layar HP.
+         Catatan: warna & border tombol diatur murni lewat class .tab-btn di style.css
+         (bukan class arbitrary Tailwind) supaya tampilannya konsisten & pasti muncul. -->
+    <div class="tab-nav-wrap relative">
+      <nav id="tab-nav" aria-label="Fitur Smart Labeling" class="tab-scroll relative z-20 flex gap-2 overflow-x-auto pb-1 pr-6">
+        <button type="button" data-tab="1" class="tab-btn tab-active shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold whitespace-nowrap">
+          <i class="fa-solid fa-route"></i> Traceability
+        </button>
+        <button type="button" data-tab="2" class="tab-btn shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold whitespace-nowrap">
+          <i class="fa-solid fa-mug-saucer"></i> Saran Penyajian
+        </button>
+        <button type="button" data-tab="3" class="tab-btn shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold whitespace-nowrap">
+          <i class="fa-solid fa-chart-simple"></i> Profil Rasa
+        </button>
+        <button type="button" data-tab="4" class="tab-btn shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold whitespace-nowrap">
+          <i class="fa-solid fa-shield-halved"></i> Cek Keaslian
+        </button>
+      </nav>
+
+      <!-- Bayangan tipis di kanan sebagai isyarat masih ada tab lain yang bisa digeser -->
+      <div id="tab-fade-right" class="tab-fade-right"></div>
+    </div>
+
+    <!-- Indikator penggulir (scroll progress) di bawah navbar.
+         Otomatis muncul hanya jika tab tidak muat semua di layar (lihat script.js). -->
+    <div id="tab-scroll-track" class="tab-scroll-track" aria-hidden="true">
+      <div id="tab-scroll-thumb" class="tab-scroll-thumb"></div>
+    </div>
+
+    <!-- Panel wrapper -->
+    <div class="mt-4 bg-white/70 backdrop-blur rounded-2xl shadow-sm overflow-hidden" style="border:1px solid rgba(74,50,35,0.15);">
+
+      <!-- ===== TAB 1: TRACEABILITY ===== -->
+      <section id="tab-content-1" class="tab-content p-5">
+        <h2 class="font-display text-xl font-semibold">Jejak Asal-Usul</h2>
+        <p class="text-xs text-[var(--color-coffee-mid)] mt-1 mb-6">Dari kebun petani Nusantara hingga siap diseduh.</p>
+
+        <!-- EDIT: ubah teks/urutan setiap tahap timeline di sini -->
+        <ol class="relative pl-9">
+          <div class="timeline-line absolute left-[13px] top-2 bottom-2"></div>
+
+          <li class="relative pb-7">
+            <span class="timeline-dot absolute -left-9 top-0 w-7 h-7 rounded-full flex items-center justify-center text-xs">
+              <i class="fa-solid fa-seedling"></i>
+            </span>
+            <p class="font-semibold text-sm">Ditanam Petani Nusantara</p>
+            <p class="text-xs text-[var(--color-coffee-mid)] mt-0.5">Dataran Tinggi Nusantara, 1.200–1.700 mdpl, oleh kelompok tani mitra.</p>
+          </li>
+
+          <li class="relative pb-7">
+            <span class="timeline-dot absolute -left-9 top-0 w-7 h-7 rounded-full flex items-center justify-center text-xs">
+              <i class="fa-solid fa-hand-holding-heart"></i>
+            </span>
+            <p class="font-semibold text-sm">Panen Selektif</p>
+            <p class="text-xs text-[var(--color-coffee-mid)] mt-0.5">Petik merah (red cherry picking) untuk menjaga kualitas biji.</p>
+          </li>
+
+          <li class="relative pb-7">
+            <span class="timeline-dot absolute -left-9 top-0 w-7 h-7 rounded-full flex items-center justify-center text-xs">
+              <i class="fa-solid fa-water"></i>
+            </span>
+            <p class="font-semibold text-sm">Pasca-Panen: Wet Hulled</p>
+            <p class="text-xs text-[var(--color-coffee-mid)] mt-0.5">Proses giling basah khas Nusantara, dijemur bertahap hingga kadar air ideal.</p>
+          </li>
+
+          <li class="relative">
+            <span class="timeline-dot timeline-dot-final absolute -left-9 top-0 w-7 h-7 rounded-full flex items-center justify-center text-xs">
+              <i class="fa-solid fa-fire-flame-curved"></i>
+            </span>
+            <p class="font-semibold text-sm">Roasting: Medium Roast</p>
+            <p class="text-xs text-[var(--color-coffee-mid)] mt-0.5">Dipanggang matang merata, dikemas 24 jam setelah roasting.</p>
+          </li>
+        </ol>
+      </section>
+
+      <!-- ===== TAB 2: SARAN PENYAJIAN ===== -->
+      <section id="tab-content-2" class="tab-content p-5 hidden">
+        <h2 class="font-display text-xl font-semibold">Saran Penyajian</h2>
+        <p class="text-xs text-[var(--color-coffee-mid)] mt-1 mb-5">Pilih metode seduh untuk melihat takarannya.</p>
+
+        <!-- Pilihan metode: V60 & Tubruk -->
+        <div class="grid grid-cols-2 gap-2 mb-6">
+          <button type="button" data-method="v60" class="brew-opt brew-active rounded-xl py-2.5 text-xs font-semibold">
+            <i class="fa-solid fa-filter block mb-1"></i>V60
+          </button>
+          <button type="button" data-method="tubruk" class="brew-opt rounded-xl py-2.5 text-xs font-semibold">
+            <i class="fa-solid fa-mug-hot block mb-1"></i>Tubruk
+          </button>
+        </div>
+
+        <!-- Infografis interaktif -->
+        <div class="rounded-2xl p-5 grain relative overflow-hidden" style="background:var(--color-coffee-dark); color:var(--color-cream);">
+          <div class="relative z-10 flex items-center gap-4">
+            <div id="gauge" class="brew-gauge w-20 h-20 rounded-full flex items-center justify-center shrink-0" style="--gauge:76">
+              <div class="w-[62px] h-[62px] rounded-full flex flex-col items-center justify-center" style="background:var(--color-coffee-dark);">
+                <span id="gauge-temp" class="font-mono text-sm font-bold">92°C</span>
+                <span class="text-[9px] uppercase tracking-wide text-[var(--color-cream-soft)]/60">Suhu</span>
+              </div>
+            </div>
+            <div class="text-xs space-y-1.5 flex-1">
+              <p class="flex justify-between"><span class="text-[var(--color-cream-soft)]/70">Rasio Kopi : Air</span> <span id="gauge-ratio" class="font-mono font-semibold">1 : 16</span></p>
+              <p class="flex justify-between"><span class="text-[var(--color-cream-soft)]/70">Waktu Seduh</span> <span id="gauge-time" class="font-mono font-semibold">2:30 min</span></p>
+              <p class="flex justify-between"><span class="text-[var(--color-cream-soft)]/70">Gilingan</span> <span id="gauge-grind" class="font-mono font-semibold">Sedang</span></p>
+            </div>
+          </div>
+          <p id="gauge-note" class="relative z-10 text-[11px] text-[var(--color-cream-soft)]/70 mt-4 leading-relaxed">
+            Tuang air panas perlahan secara memutar untuk ekstraksi merata.
+          </p>
+        </div>
+      </section>
+
+      <!-- ===== TAB 3: PROFIL RASA ===== -->
+      <section id="tab-content-3" class="tab-content p-5 hidden">
+        <h2 class="font-display text-xl font-semibold">Profil Rasa</h2>
+        <p class="text-xs text-[var(--color-coffee-mid)] mt-1 mb-5">Cupping notes hasil uji rasa internal.</p>
+
+        <!-- EDIT: ubah atribut data-value (0-100) sesuai profil kopi Anda -->
+        <div class="space-y-4">
+          <div>
+            <div class="flex justify-between text-xs mb-1.5"><span class="font-medium">Acidity</span><span class="font-mono text-[var(--color-coffee-mid)]">Medium-High</span></div>
+            <div class="h-2 rounded-full bar-track"><div class="taste-bar-fill h-2 rounded-full" data-value="72"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs mb-1.5"><span class="font-medium">Body</span><span class="font-mono text-[var(--color-coffee-mid)]">Full</span></div>
+            <div class="h-2 rounded-full bar-track"><div class="taste-bar-fill h-2 rounded-full" data-value="85"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs mb-1.5"><span class="font-medium">Sweetness</span><span class="font-mono text-[var(--color-coffee-mid)]">Balanced</span></div>
+            <div class="h-2 rounded-full bar-track"><div class="taste-bar-fill h-2 rounded-full" data-value="68"></div></div>
+          </div>
+        </div>
+
+        <!-- EDIT: tag rasa dominan -->
+        <p class="text-xs font-medium text-[var(--color-coffee-mid)] mt-6 mb-2">Rasa Dominan</p>
+        <div class="flex flex-wrap gap-2">
+          <span class="tag-pill px-3 py-1.5 rounded-full text-xs font-medium"><i class="fa-solid fa-cookie mr-1"></i>Chocolaty</span>
+          <span class="tag-pill px-3 py-1.5 rounded-full text-xs font-medium"><i class="fa-solid fa-cube mr-1"></i>Brown Sugar</span>
+          <span class="tag-pill tag-pill-accent px-3 py-1.5 rounded-full text-xs font-medium"><i class="fa-solid fa-lemon mr-1"></i>Citric</span>
+        </div>
+      </section>
+
+      <!-- ===== TAB 4: CEK KEASLIAN ===== -->
+      <section id="tab-content-4" class="tab-content p-5 hidden">
+        <h2 class="font-display text-xl font-semibold">Cek Keaslian Produk</h2>
+        <p class="text-xs text-[var(--color-coffee-mid)] mt-1 mb-6">Pastikan produk Anda asli dan terdaftar resmi.</p>
+
+        <!-- Kotak status verifikasi: isinya diubah oleh script.js -->
+        <div id="verify-box" class="text-center py-6 rounded-2xl" style="border:2px dashed rgba(74,50,35,0.3);">
+          <i class="fa-solid fa-stamp text-3xl mb-4" style="color:rgba(74,50,35,0.5);"></i>
+          <button id="verify-btn" type="button" class="w-full max-w-[85%] mx-auto block font-semibold text-sm py-3.5 rounded-xl shadow-md transition-transform active:scale-95" style="background:var(--color-coffee-dark); color:var(--color-cream);">
+            <i class="fa-solid fa-shield-halved mr-2"></i>Verifikasi Keaslian Produk
+          </button>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ============ FOOTER: ECO-FRIENDLY ============ -->
+  <footer class="mt-10 grain relative overflow-hidden px-6 py-10" style="background:var(--color-coffee-black); color:var(--color-cream-soft);">
+    <div class="relative z-10 max-w-md mx-auto text-center">
+      <i class="fa-solid fa-leaf text-2xl mb-3" style="color:var(--color-accent);"></i>
+      <!-- EDIT: teks keberlanjutan lingkungan -->
+      <h3 class="font-display text-lg font-semibold" style="color:var(--color-cream);">Kemasan Ramah Lingkungan</h3>
+      <p class="text-xs leading-relaxed text-[var(--color-cream-soft)]/70 mt-2 max-w-xs mx-auto">
+        Dirancang tanpa lem, tanpa plastik, dan tanpa staples — hanya lipatan kertas kraft
+        yang dapat terurai secara alami. Sederhana untuk bumi, kokoh untuk kopi Anda.
+      </p>
+
+      <div class="flex justify-center gap-6 mt-5 text-[10px] font-mono uppercase tracking-wide text-[var(--color-cream-soft)]/60">
+        <span><i class="fa-solid fa-ban mr-1" style="color:var(--color-accent);"></i>No Glue</span>
+        <span><i class="fa-solid fa-ban mr-1" style="color:var(--color-accent);"></i>No Plastic</span>
+        <span><i class="fa-solid fa-ban mr-1" style="color:var(--color-accent);"></i>No Staples</span>
+      </div>
+
+      <!-- EDIT: copyright / info kontak -->
+      <p class="text-[10px] text-[var(--color-cream-soft)]/40 mt-8">
+        © 2026 Coffee Nusantara. Diseduh dengan cerita dari Nusantara Indonesia.
+      </p>
+    </div>
+  </footer>
+
+  <!-- File JavaScript terpisah -->
+  <script src="script.js"></script>
+</body>
+</html>
